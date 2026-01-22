@@ -32,7 +32,7 @@
   transition: color 0.2s;
 }
 
-/* NavLink automatically applies 'active' class when path matches */
+
 .navbar-links a.active {
   color: #007bff;
   border-bottom: 2px solid #007bff;
