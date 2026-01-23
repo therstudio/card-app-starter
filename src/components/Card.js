@@ -1,29 +1,40 @@
 import { Link } from "react-router-dom";
 
 export default function Card({ card, onDelete, busy }) {
-  const handleDelete = () => {
-    if (!busy) {
-      onDelete(card); // Call the delete function with the card object
-    }
-  };
+  const img = card?.card_pic || "";
+  const name = card?.card_name || "(No name)";
 
   return (
     <div className="card">
-      <img src={card.image} alt={card.name} className="card-image" />
-      <h2 className="card-name">{card.name}</h2>
-      <p className="card-id">ID: {card.id}</p>
+      <div className="card__imgWrap">
+        {img ? (
+          <img className="card__img" src={img} alt={name} />
+        ) : (
+          <div className="card__imgPlaceholder">No Image</div>
+        )}
+      </div>
 
-      <div className="card-actions">
-        <Link to={`/edit/${card.id}`} className="edit-button">
-          Edit
-        </Link>
-        <button
-          onClick={handleDelete}
-          className="delete-button"
-          disabled={busy} // Disable the delete button while busy
-        >
-          {busy ? "Deleting..." : "Delete"}
-        </button>
+      <div className="card__body">
+        <div className="card__top">
+          <span className="badge">#{card.id}</span>
+        </div>
+
+        <h3 className="card__title" title={name}>
+          {name}
+        </h3>
+
+        <div className="card__actions">
+          <Link className="btn" to={`/cards/${card.id}/edit`}>
+            Edit
+          </Link>
+          <button
+            className="btn btn--danger"
+            onClick={() => onDelete(card)}
+            disabled={busy}
+          >
+            {busy ? "Deleting..." : "Delete"}
+          </button>
+        </div>
       </div>
     </div>
   );

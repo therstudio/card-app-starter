@@ -1,19 +1,29 @@
 import { NavLink } from "react-router-dom";
-import "./Navbar.css"; 
 
 export default function Navbar() {
   return (
-    <header className="navbar-header">
-      <div className="navbar-container">
-        <strong className="navbar-brand">Card App</strong>
-        <nav className="navbar-links">
-          <NavLink to="/" end>
+    <header className="nav">
+      <div className="nav__inner">
+        <strong className="nav__brand">Card App</strong>
+
+        <nav className="nav__links">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Home
           </NavLink>
-          <NavLink to="/cards">
+          <NavLink
+            to="/cards"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Card List
           </NavLink>
-          <NavLink to="/add">
+          <NavLink
+            to="/cards/new"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Add Card
           </NavLink>
         </nav>

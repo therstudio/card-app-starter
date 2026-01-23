@@ -16,21 +16,49 @@ const API_URL = process.env.REACT_APP_API_URL || "";
  * - DELETE /deletecard/:id
  */
 
+async function handleJsonResponse(res) {
+  let data = null;
+  try {
+    data = await res.json();
+  } catch (e) {
+    // ignore
+  }
+
+  if (!res.ok) {
+    const msg = (data && (data.error || data.message)) || `HTTP ${res.status}`;
+    throw new Error(msg);
+  }
+
+  return data;
+}
+
 export async function getCards() {
-  // GET /allcards (provided as reference)
   const res = await fetch(`${API_URL}/allcards`);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
+  console.log(res.json);
+  return handleJsonResponse(res);
 }
 
-export function addCard(card) {
-  // TODO: implement POST /addcard
+export async function addCard(card) {
+  const res = await fetch(`${API_URL}/addcard`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(card),
+  });
+  return handleJsonResponse(res);
 }
 
-export function updateCard(id, card) {
-  // TODO: implement PUT /updatecard/:id
+export async function updateCard(id, card) {
+  const res = await fetch(`${API_URL}/updatecard/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(card),
+  });
+  return handleJsonResponse(res);
 }
 
-export function deleteCard(id) {
-  // TODO: implement DELETE /deletecard/:id
+export async function deleteCard(id) {
+  const res = await fetch(`${API_URL}/deletecard/${id}`, {
+    method: "DELETE",
+  });
+  return handleJsonResponse(res);
 }
