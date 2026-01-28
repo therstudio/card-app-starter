@@ -7,14 +7,10 @@
  */
 const API_URL = process.env.REACT_APP_API_URL || "";
 
-/**
- * TODO: If your backend routes differ, update the paths here.
- * Required endpoints:
- * - GET    /allcards
- * - POST   /addcard
- * - PUT    /updatecard/:id
- * - DELETE /deletecard/:id
- */
+// Get token from localStorage
+function getToken() {
+  return localStorage.getItem("token");
+}
 
 async function handleJsonResponse(res) {
   let data = null;
@@ -32,33 +28,54 @@ async function handleJsonResponse(res) {
   return data;
 }
 
+// Fetch all cards (protected)
 export async function getCards() {
-  const res = await fetch(`${API_URL}/allcards`);
-  console.log(res.json);
+  const token = getToken();
+  const res = await fetch(`${API_URL}/allcards`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ← send token
+    },
+  });
   return handleJsonResponse(res);
 }
 
+// Add a new card (protected)
 export async function addCard(card) {
+  const token = getToken();
   const res = await fetch(`${API_URL}/addcard`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ← send token
+    },
     body: JSON.stringify(card),
   });
   return handleJsonResponse(res);
 }
 
+// Update card (protected)
 export async function updateCard(id, card) {
+  const token = getToken();
   const res = await fetch(`${API_URL}/updatecard/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ← send token
+    },
     body: JSON.stringify(card),
   });
   return handleJsonResponse(res);
 }
 
+// Delete card (protected)
 export async function deleteCard(id) {
+  const token = getToken();
   const res = await fetch(`${API_URL}/deletecard/${id}`, {
     method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}` // ← send token
+    },
   });
   return handleJsonResponse(res);
 }
