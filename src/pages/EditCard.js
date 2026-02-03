@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-
 import CardForm from "../components/CardForm";
 import { getCards, updateCard } from "../services/api";
 
 export default function EditCard() {
-  const { id } = useParams();
   const navigate = useNavigate();
+  
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) navigate("/login");
+  }, [navigate]);
+
+  const { id } = useParams();
+
 
   const [values, setValues] = useState({
     card_name: "",

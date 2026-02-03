@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import { getCards, deleteCard } from "../services/api";
 
 export default function CardList() {
+  const token = localStorage.getItem("token");
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -88,7 +89,7 @@ export default function CardList() {
                 key={card.id}
                 card={card}
                 busy={busy === card.id}
-                onDelete={handleDelete}
+                onDelete={token ? handleDelete : null}
               />
             ))}
           </div>

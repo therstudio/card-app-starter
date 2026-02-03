@@ -79,3 +79,21 @@ export async function deleteCard(id) {
   });
   return handleJsonResponse(res);
 }
+
+// Login user + save token
+export async function login(credentials) {
+  const res = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  });
+
+  const data = await handleJsonResponse(res);
+
+  // Save JWT
+  localStorage.setItem("token", data.token);
+
+  return data;
+}

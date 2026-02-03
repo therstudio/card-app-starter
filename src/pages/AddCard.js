@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CardForm from "../components/CardForm";
 import { addCard } from "../services/api";
 
 export default function AddCard() {
   const navigate = useNavigate();
+
+  // Protect page
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) navigate("/login");
+  }, [navigate]);
 
   const [values, setValues] = useState({
     card_name: "",
